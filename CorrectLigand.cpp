@@ -13,7 +13,7 @@ using namespace std;
 
 static const string HETATM = "HETATM";
 
-map<string, string> makeDict(string fn) {
+map<string, string> makeDict(const string& fn) {
     map<string, string> atomPairs;
     ifstream ligand(fn);
     string str, key, value;
@@ -58,6 +58,5 @@ int main(int argc, const char * argv[]) {
             myWrite << line << endl;
         }
     }
-
     return 0;
 }
