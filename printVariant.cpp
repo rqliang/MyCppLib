@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 
-std::vector<fasta> getSeqs(std::string fn) {
+std::vector<fasta> getSeqs(const std::string& fn) {
     std::vector<fasta> seqs;
     std::string str;
     fasta af;
@@ -38,7 +38,7 @@ void printSeqs(const std::vector<fasta>& seqs) {
         std::cout << x.name << '\t' << x.seq.length() << '\t' << x.seq << '\n';
 }
 
-void writeSeqs(const std::vector<fasta>& seqs, std::string fn) {
+void writeSeqs(const std::vector<fasta>& seqs, const std::string& fn) {
     std::ofstream file(fn);
     for (auto& x: seqs) {
         file << x.name << std::endl;
