@@ -23,9 +23,9 @@ struct retMatrix{
     std::vector<fasta> seqs;
 };
 
-std::vector<fasta> getSeqs(std::string fn);
+std::vector<fasta> getSeqs(const std::string& fn);
 void printSeqs(const std::vector<fasta>& seqs);
-void writeSeqs(const std::vector<fasta>& seqs, std::string fn);
+void writeSeqs(const std::vector<fasta>& seqs, const std::string& fn);
 retMatrix getMatrix (const std::vector<fasta>& seqs);
 
 #endif /* printVariant_hpp */
