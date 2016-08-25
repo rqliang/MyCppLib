@@ -241,7 +241,7 @@ float DNA::mw() const {
     return sum;
 }
 
-inline std::string DNA::toString() const{
+std::string DNA::toString() const{
     std::string res;
     for (const NT& x: dna) {
         switch (x) {

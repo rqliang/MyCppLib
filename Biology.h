@@ -129,6 +129,10 @@ public:
         return str;
     }
     
+    std::string toString() const {
+        return toString1();
+    }
+    
     std::string toString3() const {
         std::string str = "";
         for (const AA1& x: prot) {
@@ -197,7 +201,7 @@ public:
         }
     }
     DNA reverse_complement() const;
-    inline std::string toString() const;
+    std::string toString() const;
     float mw() const;
     DNA& operator+=(const DNA& d) {
         for (auto x: d.dna)
@@ -209,6 +213,43 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const DNA& d);
 };
 
+template <typename T>
+struct Record{
+    std::string name;
+    T seq;
+};
 
+template <typename T>
+class Fasta{
+    std::vector<Record<T>> records;
+public:
+    Fasta(Record<T> a) {
+        records.push_back(a);
+    }
+    Fasta(std::string s, T a) {
+        Record<T> t{s,a};
+        records.push_back(t);
+    }
+    size_t size() const { return records.size();}
+    Fasta& operator+=(const Fasta& a) {
+        for (auto x: a.records){
+            records.push_back(x);
+        }
+        return *this;
+    }
+    Fasta& operator+=(const Record<T>& a) {
+        records.push_back(a);
+        return *this;
+    }
+    std::string toString() const {
+        std::string str{""};
+        for (auto x: records){
+            str += '>' + x.name + '\n';
+            str += x.seq.toString() + '\n';
+        }
+        return str;
+    }
+    
+};
 
 #endif /* defined(____Biology__) */
