@@ -1,36 +1,34 @@
 //
 //  main.cpp
-//  PrintVariant
+//  CleanPDB
 //
-//  Created by Ruqiang Liang on 8/12/16.
+//  Created by Ruqiang Liang on 8/24/16.
 //  Copyright © 2016 Ruqiang Liang. All rights reserved.
 //
 
-
-//#include <fstream>
-//#include <string>
-//#include <vector>
-#include "printVariant.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    //cout << "Hello, World!\n";
-    if (argc < 3) {
-        cerr << "Usage: " << argv[0] << " input.fa output.fa\n";
+    //std::cout << "Hello, World!\n";
+    string fn = argv[1];
+    ifstream file(fn);
+    ofstream fo(fn + "_out.pdb");
+    string ln;
+    if (argc < 2) {
+        cerr << "Usage: " + string(argv[0]) + " input.pdb";
         return -1;
     }
-    string file = argv[1];
-    
-    vector<fasta> seqs = getSeqs(file);
-    retMatrix matrix = getMatrix(seqs);
-    for (auto x: matrix.pos)
-        cout<< x+1 << ',';
-    cout<<endl;
-    //printSeqs(matrix.seqs);
-    vector<fasta>& test = matrix.seqs;
-    printSeqs(test);
-    writeSeqs(test, argv[2]);
+    while(getline(file, ln)){
+        if (ln.find("ATOM") == 0)
+            fo << ln + '\n';
+        else if (ln.find("HETATM") == 0)
+            fo << ln + '\n';
+        else
+            continue;
+    }
     return 0;
 }
