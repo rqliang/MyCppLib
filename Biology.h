@@ -13,24 +13,48 @@
 #include <string>
 #include <iostream>
 
+/// enum class for nucleotides, including N, M, and K other than regulars
 enum class NT{G,A,T,C,N,M,K};
+
+/// enum class for amino acid residues with one letter symbol, with an extra X stands for anything else.
 enum class AA1{A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,X};
+
+/// enum class for amino acid residues with three letter symbol.
 enum class AA3{Ala,Cys,Asp,Glu,Phe,Gly,His,Ile,Lys,Leu,Met,Asn,Pro,Gln,Arg,Ser,Thr,Val,Trp,Tyr,Any};
+
+/// Translates one letter symbol amino acid residue into three letter symbol
 AA3 AA123(AA1 x);
+
+/// Translates three letter symbol into one letter symbol
 AA1 AA321(AA3 x);
+
+/// Translate one letter symbol amino acid residue into printable char
 char AA1toChar(AA1 x);
+
+/// Translate 3-letter symbol into one printable char
 char AA3toChar(AA3 x);
+
+/// Translate 3-letter symbol into 3-letter string.
 std::string AA3toStr(AA3 x);
+
+/// Translates 1-letter symbol into 3-letter string.
 std::string AA1toStr(AA1 x);
 
+/// Return complementary nucleotide 
 NT complement(const NT& x);
+
+/// Return molecular weight of a nucleotide
 float ntmw(const NT& x);
 
+
+/// A simple class definition for protein.
 class Protein{
-    std::vector<AA1> prot;
+  std::vector<AA1> prot; /// a vector of 1-letter amino acid symbol
 public:
-    Protein(std::initializer_list<AA1> ilAA1): prot{ilAA1} {}
-    Protein(std::vector<AA1> x): prot{x}{}
+ Protein(std::initializer_list<AA1> ilAA1): prot{ilAA1} {} /// standard initializer_list construction.
+ Protein(std::vector<AA1> x): prot{x}{} /// Constructor with a vector of 1-letter amino acid residue.
+
+  /// Constructor using a string, ignoring any other nonstandard amino acids.
     Protein(std::string str) {
         for (const char& x: str) {
             switch (x) {
