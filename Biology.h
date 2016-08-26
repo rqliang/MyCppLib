@@ -145,6 +145,8 @@ public:
             }
         }
     }
+
+    /// print the protein sequence into 1-letter symbol string.
     std::string toString1() const {
         std::string str = "";
         for (const AA1& x: prot) {
@@ -152,11 +154,12 @@ public:
         }
         return str;
     }
-    
+    /// alias of toString1    
     std::string toString() const {
         return toString1();
     }
     
+    /// Print protein sequence into 3-letter symbol separated by space
     std::string toString3() const {
         std::string str = "";
         for (const AA1& x: prot) {
@@ -165,6 +168,7 @@ public:
         return str;
     }
     
+    /// Concatenate protein sequnce
     Protein& operator+=(const Protein& p) {
         for (AA1 x: p.prot) {
             prot.push_back(x);
@@ -182,7 +186,7 @@ public:
     }
 };
 
-
+/// A simple class for DNA sequence.
 class DNA{
     std::vector<NT> dna;
 public:

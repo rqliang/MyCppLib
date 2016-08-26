@@ -10,6 +10,8 @@
 #include <fstream>
 #include <string>
 using namespace std;
+/// This program copy the PDB file and remove any other lines than ATOM and HETATM.
+/// It accepts a input.pdb and output a input.pdb_out.pdb file.
 
 int main(int argc, const char * argv[]) {
     // insert code here...
