@@ -18,7 +18,7 @@ std::vector<fasta> getSeqs(const std::string& fn) {
     fasta af;
     std::ifstream file(fn);
     while (std::getline(file, str)) {
-        if (str == "") {continue;}
+      if (str == "") {continue;} /// skip empty lines.
         else if (str.at(0) == '>') {
             if (af.name.length() != 0 && af.seq.length() != 0) {
                 seqs.push_back(af);
@@ -33,9 +33,13 @@ std::vector<fasta> getSeqs(const std::string& fn) {
     return seqs;
 }
 
-void printSeqs(const std::vector<fasta>& seqs) {
+std::string printSeqs(const std::vector<fasta>& seqs) {
+  std::string str="";
     for (auto& x: seqs)
-        std::cout << x.name << '\t' << x.seq.length() << '\t' << x.seq << '\n';
+      str += x.name + '\t' + x.seq.length() + '\t' + x.seq;
+
+    //        std::cout << x.name << '\t' << x.seq.length() << '\t' << x.seq << '\n';
+    return str;
 }
 
 void writeSeqs(const std::vector<fasta>& seqs, const std::string& fn) {
@@ -57,7 +61,8 @@ retMatrix getMatrix (const std::vector<fasta>& seqs) {
     for (auto& f: seqs) {
         seqlen.push_back(f.seq.size());
     }
-    
+
+    /// check the size of each record. Should be the same.    
     for (size_t i=1; i != seqlen.size(); ++i) {
         if (seqlen[0] != seqlen[i])
             std::cerr << "The " << i << "th sequences is length is different" << std::endl;

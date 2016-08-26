@@ -13,6 +13,9 @@ using namespace std;
 
 static const string HETATM = "HETATM";
 
+/// A ligand.def file is made up of lines separated by tab.
+/// this program basically replate the first entity before the tab with the one
+/// after the tab.
 map<string, string> makeDict(const string& fn) {
     map<string, string> atomPairs;
     ifstream ligand(fn);

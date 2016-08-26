@@ -228,9 +228,17 @@ public:
             }
         }
     }
+
+    /// Return the reverse complementary sequence of a DNA
     DNA reverse_complement() const;
+
+    /// Print the DNA sequence into a string
     std::string toString() const;
+
+    /// Return the molecular weight of this single strand DNA.
     float mw() const;
+
+    /// Concatenate DNA sequence.
     DNA& operator+=(const DNA& d) {
         for (auto x: d.dna)
             dna.push_back(x);
@@ -241,12 +249,15 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const DNA& d);
 };
 
+/// A template for Record either protein or DNA
 template <typename T>
 struct Record{
     std::string name;
     T seq;
 };
 
+
+/// A template class for Fasta file, either protein or DNA
 template <typename T>
 class Fasta{
     std::vector<Record<T>> records;
@@ -258,17 +269,25 @@ public:
         Record<T> t{s,a};
         records.push_back(t);
     }
+
+    /// Return number of sequences in the fasta record.
     size_t size() const { return records.size();}
+
+    /// Concatenate two fasta records.
     Fasta& operator+=(const Fasta& a) {
         for (auto x: a.records){
             records.push_back(x);
         }
         return *this;
     }
+
+    /// Add one record onto the fasta
     Fasta& operator+=(const Record<T>& a) {
         records.push_back(a);
         return *this;
     }
+
+    /// Return fasta records into string.
     std::string toString() const {
         std::string str{""};
         for (auto x: records){

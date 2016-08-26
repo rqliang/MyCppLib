@@ -217,6 +217,7 @@ std::string AA1toStr(AA1 x) {
     return AA3toStr(y);
 }
 
+/// This version of the molecular weight is not accurate.
 float ntmw(const NT& x){
     switch (x) {
         case NT::G: return 347.2;
@@ -234,6 +235,7 @@ std::ostream& operator<<(std::ostream& os, const DNA& d) {
     return os;
 }
 
+/// This version of molecular weight is not correct.
 float DNA::mw() const {
     float sum=0;
     for (const NT& n: dna)
