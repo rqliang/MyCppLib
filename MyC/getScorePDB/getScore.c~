@@ -75,7 +75,7 @@ void getScoreFromDir(const char * dn, const FILE * fo) {
     struct dirent* entry;
     char* p;
     char cwd[1024];
-    long int i = 0;
+    int i = 0;
     
     if (!(dir = opendir(dn)))
         return;
@@ -92,8 +92,6 @@ void getScoreFromDir(const char * dn, const FILE * fo) {
                     getLabelFromFile(entry->d_name, fo);
                 getScoreFromFile(entry->d_name, fo);
                 ++i;
-		printf("%d\r",i);
-		fflush(stdout);
             }
         }
     } while ((entry = readdir(dir)));
