@@ -16,8 +16,8 @@
 #define END "total_score_X"
 #define SEP " "
 
-void getScoreFromFile(char * fn, const FILE * fo);
-void getLabelFromFile(const char * fn, const FILE * fo);
-void getScoreFromDir(const char * dn, const FILE * fo);
+int getScoreFromFile(char * fn, const FILE * fo, double * score);
+int getLabelFromFile(const char * fn, const FILE * fo, char** label);
+long int getScoreFromDir(const char * dn, const FILE * fo, double ** scores, char** label);
 
 #endif /* getScore_h */
