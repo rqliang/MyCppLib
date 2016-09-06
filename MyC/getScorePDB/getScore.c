@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int getScoreFromFile(char * fn, const FILE * fo, double * score)
+int getScoreFromFile(char * fn, const FILE * fo, record myrec)
 {
     FILE* fp;
     char* p;
@@ -18,29 +18,30 @@ int getScoreFromFile(char * fn, const FILE * fo, double * score)
     
     //int tag = 0;
     int i = 0;
-
+    
     if((fp = fopen(fn,"r")) != NULL){
         for (int tag =0 ; fgets(line, 256, fp); ) {
             
             line[strlen(line)-1] = '\0';
             if ((p=strstr(line,START))) {
                 tag = 1;
-                strcpy(line, p+strlen(START)+1);
-                fprintf(fo,"%s\t", line);
-                *score = atof(line);
+                p = p+strlen(START)+1;
+                fprintf(fo,"%s\t", p);
+                myrec.score[i] = atof(p);
                 ++i;
             } else if ((p=strstr(line,END))) {
                 tag = 0;
                 fn[strlen(fn)-4] = '\0';
-                strcpy(line, p+strlen(END)+1);
-                fprintf(fo,"%s\t%s\n",line,fn);
-                *(score+i) = atof(line);
+                p = p+strlen(END)+1;
+                strcpy(myrec.name, fn);
+                fprintf(fo,"%s\t%s\n",p,fn);
+                myrec.score[i] = atof(p);
                 break;
             } else if(tag) {
                 if ((p=strstr(line, SEP))) {
                     p = p+strlen(SEP);
                     fprintf(fo,"%s\t", p);
-                    * (score + i) = atof(p);
+                    myrec.score[i] = atof(p);
                     ++i;
                 }
             }
@@ -74,7 +75,7 @@ int getLabelFromFile(const char * fn, const FILE * fo, char ** labels) {
                 *p = '\0';
                 fprintf(fo,"%s\t description\n",line);
                 strcpy(labels[i], line);
-                strcpy(labels[i+1], line);
+                strcpy(labels[i+1], "description");
                 break;
             } else if(tag) {
                 if ((p=strstr(line, SEP))) {
@@ -91,7 +92,7 @@ int getLabelFromFile(const char * fn, const FILE * fo, char ** labels) {
     return i+1;
 }
 
-long int  getScoreFromDir(const char * dn, const FILE * fo, double** scores, char** label) {
+long int  getScoreFromDir(const char * dn, const FILE * fo, record* myRec, char** label, size_t* dim) {
     DIR *dir;
     struct dirent* entry;
     char* p;
@@ -111,8 +112,8 @@ long int  getScoreFromDir(const char * dn, const FILE * fo, double** scores, cha
             //printf("%s\n",entry->d_name);
             if((p=strstr(entry->d_name,".pdb"))) {
                 if(!i)
-                    getLabelFromFile(entry->d_name, fo, label);
-                 getScoreFromFile(entry->d_name, fo, *(scores + i));
+                    dim[0] = getLabelFromFile(entry->d_name, fo, label);
+                getScoreFromFile(entry->d_name, fo, myRec[i]);
                 ++i;
                 printf("%ld\r",i);
                 fflush(stdout);
@@ -121,5 +122,14 @@ long int  getScoreFromDir(const char * dn, const FILE * fo, double** scores, cha
     } while ((entry = readdir(dir)));
     closedir(dir);
     chdir(cwd);
+    dim[1] = i;
     return i;
+}
+
+int cmp(const void* x, const void* y) {
+    record xx = *(record*)x;
+    record yy = *(record*)y;
+    if(xx.score[52] < yy.score[52]) return -1;
+    if(xx.score[52] < yy.score[52]) return 1;
+    return 0;
 }

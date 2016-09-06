@@ -16,8 +16,13 @@
 #define END "total_score_X"
 #define SEP " "
 
-int getScoreFromFile(char * fn, const FILE * fo, double * score);
-int getLabelFromFile(const char * fn, const FILE * fo, char** label);
-long int getScoreFromDir(const char * dn, const FILE * fo, double ** scores, char** label);
+typedef struct {
+    char* name;
+    double* score;
+} record;
 
+int getScoreFromFile(char * fn, const FILE * fo, record rec);
+int getLabelFromFile(const char * fn, const FILE * fo, char** label);
+long int getScoreFromDir(const char * dn, const FILE * fo, record * myRec, char** label, size_t* dim);
+int cmp(const void* x, const void* y);
 #endif /* getScore_h */
