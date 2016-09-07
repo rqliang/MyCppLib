@@ -21,8 +21,8 @@ typedef struct {
     double* score;
 } record;
 
-int getScoreFromFile(char * fn, const FILE * fo, record rec);
-int getLabelFromFile(const char * fn, const FILE * fo, char** label);
-long int getScoreFromDir(const char * dn, const FILE * fo, record * myRec, char** label, size_t* dim);
-int cmp(const void* x, const void* y);
+int getScoreFromFile(char * fn,  FILE * fo, record rec);
+int getLabelFromFile( char * fn,  FILE * fo, char** label);
+long int getScoreFromDir( char * dn,  FILE * fo, record * myRec, char** label, size_t* dim);
+int cmp(const void* x,const  void* y);
 #endif /* getScore_h */

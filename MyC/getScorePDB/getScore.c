@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int getScoreFromFile(char * fn, const FILE * fo, record myrec)
+int getScoreFromFile(char * fn,  FILE * fo, record myrec)
 {
     FILE* fp;
     char* p;
@@ -27,7 +27,7 @@ int getScoreFromFile(char * fn, const FILE * fo, record myrec)
                 tag = 1;
                 p = p+strlen(START)+1;
                 fprintf(fo,"%s\t", p);
-                myrec.score[i] = atof(p);
+                myrec.score[i] = strtod(p,0);
                 ++i;
             } else if ((p=strstr(line,END))) {
                 tag = 0;
@@ -35,13 +35,13 @@ int getScoreFromFile(char * fn, const FILE * fo, record myrec)
                 p = p+strlen(END)+1;
                 strcpy(myrec.name, fn);
                 fprintf(fo,"%s\t%s\n",p,fn);
-                myrec.score[i] = atof(p);
+                myrec.score[i] = strtod(p,0);
                 break;
             } else if(tag) {
                 if ((p=strstr(line, SEP))) {
                     p = p+strlen(SEP);
                     fprintf(fo,"%s\t", p);
-                    myrec.score[i] = atof(p);
+                    myrec.score[i] = strtod(p,0);
                     ++i;
                 }
             }
@@ -53,7 +53,7 @@ int getScoreFromFile(char * fn, const FILE * fo, record myrec)
     return i;
 }
 
-int getLabelFromFile(const char * fn, const FILE * fo, char ** labels) {
+int getLabelFromFile( char * fn,  FILE * fo, char ** labels) {
     FILE* fp;
     char* p;
     char line[256];
@@ -92,7 +92,7 @@ int getLabelFromFile(const char * fn, const FILE * fo, char ** labels) {
     return i+1;
 }
 
-long int  getScoreFromDir(const char * dn, const FILE * fo, record* myRec, char** label, size_t* dim) {
+long int  getScoreFromDir( char * dn,  FILE * fo, record* myRec, char** label, size_t* dim) {
     DIR *dir;
     struct dirent* entry;
     char* p;
@@ -126,7 +126,7 @@ long int  getScoreFromDir(const char * dn, const FILE * fo, record* myRec, char*
     return i;
 }
 
-int cmp(const void* x, const void* y) {
+int cmp(const void* x,const  void* y) {
     record xx = *(record*)x;
     record yy = *(record*)y;
     if(xx.score[52] < yy.score[52]) return -1;

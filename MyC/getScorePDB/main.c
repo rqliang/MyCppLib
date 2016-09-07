@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "getScore.h"
 #define LENGTH 30000
 #define WIDTH   60
@@ -16,6 +17,8 @@
 
 int main(int argc, const char * argv[]) {
     FILE * fp;
+    char dirname[1024];
+    strcpy(dirname, argv[1]);
     size_t * dim = (size_t *) calloc(2, sizeof(size_t));
     char** labels = (char **) malloc(WIDTH * sizeof(char*));
     record * myRecords = (record *) malloc ( LENGTH * sizeof(record));
@@ -32,7 +35,7 @@ int main(int argc, const char * argv[]) {
         EXIT_FAILURE;
     }
     if((fp = fopen(argv[2],"w")) != NULL){
-        getScoreFromDir(argv[1], fp, myRecords, labels, dim);
+        getScoreFromDir(dirname, fp, myRecords, labels, dim);
         fclose(fp);
     }
     
